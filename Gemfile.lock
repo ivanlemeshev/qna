@@ -37,10 +37,11 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
-    byebug (8.0.1)
+    byebug (8.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -49,8 +50,14 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     debug_inspector (0.0.2)
+    diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -72,6 +79,7 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    pg (0.18.3)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -101,6 +109,23 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
+    rspec-core (3.3.2)
+      rspec-support (~> 3.3.0)
+    rspec-expectations (3.3.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.3.0)
+    rspec-mocks (3.3.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.3.0)
+    rspec-rails (3.3.3)
+      actionpack (>= 3.0, < 4.3)
+      activesupport (>= 3.0, < 4.3)
+      railties (>= 3.0, < 4.3)
+      rspec-core (~> 3.3.0)
+      rspec-expectations (~> 3.3.0)
+      rspec-mocks (~> 3.3.0)
+      rspec-support (~> 3.3.0)
+    rspec-support (3.3.0)
     sass (3.4.19)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -111,19 +136,35 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    spring (1.4.0)
+    shoulda-matchers (3.0.1)
+      activesupport (>= 4.0.0)
+    slim (3.0.6)
+      temple (~> 0.7.3)
+      tilt (>= 1.3.3, < 2.1)
+    slim-rails (3.0.1)
+      actionmailer (>= 3.1, < 5.0)
+      actionpack (>= 3.1, < 5.0)
+      activesupport (>= 3.1, < 5.0)
+      railties (>= 3.1, < 5.0)
+      slim (~> 3.0)
+    spring (1.4.1)
     sprockets (3.4.0)
       rack (> 1, < 3)
     sprockets-rails (2.3.3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    sqlite3 (1.3.11)
+    temple (0.7.6)
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.1)
     turbolinks (2.5.3)
       coffee-rails
+    twitter-bootstrap-rails (3.2.0)
+      actionpack (~> 4.1)
+      execjs (~> 2.2)
+      rails (~> 4.1)
+      railties (~> 4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -139,18 +180,24 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   byebug
   coffee-rails (~> 4.1.0)
+  factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails
+  pg
   rails (= 4.2.4)
+  rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  shoulda-matchers
+  slim-rails
   spring
-  sqlite3
   turbolinks
+  twitter-bootstrap-rails
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.10.5
+   1.10.6
