@@ -30,6 +30,8 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'spring-commands-rspec'
+  gem 'guard-rspec'
 end
 
 group :test do
