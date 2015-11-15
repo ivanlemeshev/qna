@@ -5,3 +5,9 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+
+Style/EndOfLine:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
