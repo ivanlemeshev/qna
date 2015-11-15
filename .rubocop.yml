@@ -9,5 +9,8 @@ Style/Documentation:
 Style/EndOfLine:
   Enabled: false
 
+Style/UnneededPercentQ:
+  Enabled: false
+
 Metrics/LineLength:
   Max: 120
