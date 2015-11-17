@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'Create question', %q(
   In order to get answer from community
   As an authenticated
-  I want to have abbility to ask questions
+  I want to have ability to ask questions
 ) do
   given(:user) { create(:user) }
 

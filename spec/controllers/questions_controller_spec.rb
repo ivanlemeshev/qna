@@ -30,16 +30,30 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    sign_in_user
+    context 'when user is an authenticated' do
+      sign_in_user
 
-    before { get :new }
+      before { get :new }
 
-    it 'assigns a new Question to @question' do
-      expect(assigns(:question)).to be_a_new Question
+      it 'assigns a new Question to @question' do
+        expect(assigns(:question)).to be_a_new Question
+      end
+
+      it 'renders new view' do
+        expect(response).to render_template :new
+      end
     end
 
-    it 'renders new view' do
-      expect(response).to render_template :new
+    context 'when user is an unauthenticated' do
+      before { get :new }
+
+      it 'not assigns a new Question to @question' do
+        expect(assigns(:question)).to eq nil
+      end
+
+      it 'redirects to sign in page' do
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
 
