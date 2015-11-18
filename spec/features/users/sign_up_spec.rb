@@ -7,7 +7,7 @@ feature 'User sign up', %q(
 ) do
   given(:user) { create(:user) }
 
-  scenario 'New user try to sign up with valid email and password' do
+  scenario 'New user try to sign up' do
     visit new_user_registration_path
     fill_in 'Email', with: 'new@test.com'
     fill_in 'Password', with: '12345678'
