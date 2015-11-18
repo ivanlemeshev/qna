@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title Qna
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body
+    - if user_signed_in?
+      = link_to 'Sign out', destroy_user_session_path, method: :delete
+    - else
+      = link_to 'Sign in', new_user_session_path
+
+    p class="notice"
+      = notice
+
+    p class="alert"
+      = alert
+
+    = yield
