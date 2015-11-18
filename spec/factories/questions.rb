@@ -1,5 +1,8 @@
 FactoryGirl.define do
+  sequence :id
+
   factory :question do
+    id
     title 'MyString'
     body 'MyText'
   end

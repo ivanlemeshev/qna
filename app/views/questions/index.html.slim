@@ -3,4 +3,4 @@ p= link_to 'Ask question', new_question_path
 ul
   - @questions.each do |question|
     li
-      = question.title
+      = link_to question.title, question
