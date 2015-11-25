@@ -1,0 +1,9 @@
+- if resource.errors.any?
+  div class="text-danger"
+    h2
+      = t('common.errors')
+
+    ul
+      - resource.errors.full_messages.each do |message|
+        li
+          = message

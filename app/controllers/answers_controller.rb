@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
   before_action :load_question, only: [:new, :create]
 
   def new
@@ -9,7 +10,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
 
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: I18n.t('notices.answers.created')
     else
       render 'new'
     end
