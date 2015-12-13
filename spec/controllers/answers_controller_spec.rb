@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:answer) { create :answer }
   let(:question) { create :question }
+  let(:answer)  { create :answer, question: question }
 
   describe 'GET #new' do
     sign_in_user
@@ -26,6 +26,7 @@ RSpec.describe AnswersController, type: :controller do
         expect {
           post :create, question_id: question, answer: attributes_for(:answer)
         }.to change(question.answers, :count).by(1)
+        expect(Answer.last.user).to eq @user
       end
 
       it 'redirects to question show view' do

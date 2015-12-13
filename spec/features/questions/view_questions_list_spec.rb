@@ -8,8 +8,7 @@ feature 'View a list of questions', %q(
   scenario 'User view a list of questions' do
     @questions = create_list(:question, 2)
     visit questions_path
-
-    expect(page).to have_link 'MyString', href: question_path(@questions[0])
-    expect(page).to have_link 'MyString', href: question_path(@questions[1])
+    expect(page).to have_link @questions[0].title, href: question_path(@questions[0])
+    expect(page).to have_link @questions[1].title, href: question_path(@questions[1])
   end
 end

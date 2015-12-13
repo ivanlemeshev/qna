@@ -14,6 +14,9 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    if !current_user.owner_of?(@question)
+      redirect_to @question, alert: I18n.t('alerts.access_denied')
+    end
   end
 
   def create
@@ -35,8 +38,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path, notice: I18n.t('notices.questions.removed')
+    if current_user.owner_of?(@question)
+      @question.destroy
+      redirect_to questions_path, notice: I18n.t('notices.questions.removed')
+    else
+      redirect_to @question, alert: I18n.t('alerts.access_denied')
+    end
   end
 
   private

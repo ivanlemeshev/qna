@@ -5,7 +5,7 @@ feature 'Create answer', %q(
   As an authenticated user
   I want to have ability to answer questions
 ) do
-  given(:user) { create(:user) }
+  given(:user)     { create(:user) }
   given(:question) { create(:question) }
 
   scenario 'Authenticated user creates answer with valid data' do

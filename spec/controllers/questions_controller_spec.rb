@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
-
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -18,6 +16,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    let(:question) { create(:question) }
+
     before { get :show, id: question }
 
     it 'assigns the requested question to @question' do
@@ -32,6 +32,8 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #new' do
     context 'when user is an authenticated' do
       sign_in_user
+
+      let(:question) { create(:question) }
 
       before { get :new }
 
@@ -60,10 +62,13 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     sign_in_user
 
+    let(:question) { create(:question, user: @user) }
+
     before { get :edit, id: question }
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
+      expect(question.user).to eq @user
     end
 
     it 'renders edit view' do
@@ -74,9 +79,12 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     sign_in_user
 
+    let(:question) { create(:question) }
+
     context 'with valid attributes' do
       it 'save the new question in the database' do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect(Question.last.user).to eq @user
       end
 
       it 'redirects to show view' do
@@ -99,6 +107,8 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     sign_in_user
+
+    let(:question) { create(:question, user: @user) }
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
@@ -136,7 +146,9 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-    
+
+    let(:question) { create(:question, user: @user) }
+
     before { question }
 
     it 'deletes question' do
