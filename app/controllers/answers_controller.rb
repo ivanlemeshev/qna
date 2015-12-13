@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
 
     if current_user.owner_of?(@answer)
       @answer.destroy
-      redirect_to @answer.question, notice: I18n.t('notices.answers.destroyed')
+      redirect_to @answer.question, notice: I18n.t('notices.answers.removed')
     else
       redirect_to @answer.question, alert: I18n.t('alerts.access_denied')
     end
