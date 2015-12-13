@@ -3,7 +3,7 @@ h1
 
 p
   = @question.body
-- if current_user.owner_of?(@question)
+- if user_signed_in? && current_user.owner_of?(@question)
   p
     = link_to t('questions.show.remove_question'), @question, method: :delete, data: { confirm: t('common.sure') }
 
@@ -16,6 +16,6 @@ p
         li
           p
             = answer.body
-          - if current_user.owner_of?(answer)
+          - if user_signed_in? && current_user.owner_of?(answer)
             p
               = link_to t('questions.show.remove_answer'), answer, method: :delete, data: { confirm: t('common.sure') }
