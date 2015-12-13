@@ -6,3 +6,12 @@ p
 
 p
   = link_to t('questions.show.write_answer'), new_question_answers_path(@question)
+
+- if @question.answers.size > 0
+    ul
+      - @question.answers.each do |answer|
+        li
+          p
+            = answer.body
+          p
+            = link_to t('questions.show.remove_answer'), answer, method: :delete, data: { confirm: t('common.sure') }

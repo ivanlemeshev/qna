@@ -1,15 +1,25 @@
 en:
   common:
-      back: 'Back'
-      cancel: 'Cancel'
-      change: 'Change'
-      create: 'Create'
-      destroy: 'Destroy'
-      edit: 'Edit'
-      errors: 'Please correct the following errors'
+    back: 'Back'
+    cancel: 'Cancel'
+    change: 'Change'
+    create: 'Create'
+    destroy: 'Destroy'
+    edit: 'Edit'
+    errors: 'Please correct the following errors:'
+    sure: 'Are you sure?'
+  alerts:
+    access_denied: 'You have no access to this action.'
   notices:
     answers:
-      created: 'Your answer successfully created'
+      created: 'Your answer successfully created.'
+      update: 'Your answer successfully updated.'
+      destroyed: 'Your answer successfully removed.'
+    questions:
+      created: 'Your question successfully created.'
+      update: 'Your question successfully updated.'
+      destroyed: 'Your question successfully removed.'
   questions:
     show:
       write_answer: 'Write answer'
+      remove_answer: 'Remove answer'

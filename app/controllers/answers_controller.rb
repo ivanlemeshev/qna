@@ -1,18 +1,30 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!
   before_action :load_question, only: [:new, :create]
 
   def new
-    @answer = Answer.new
+    @answer =  @question.answers.new
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = current_user.answers.new(answer_params)
+    @answer.question = @question
 
     if @answer.save
       redirect_to @question, notice: I18n.t('notices.answers.created')
     else
       render 'new'
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+
+    if current_user.owner_of?(@answer)
+      @answer.destroy
+      redirect_to @answer.question, notice: I18n.t('notices.answers.destroyed')
+    else
+      redirect_to @answer.question, alert: I18n.t('alerts.access_denied')
     end
   end
 
