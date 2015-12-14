@@ -6,9 +6,10 @@ feature 'View a list of questions', %q(
   I want to have ability to view a list of questions
 ) do
   scenario 'User view a list of questions' do
-    @questions = create_list(:question, 2)
+    user = create :user
+    questions = create_list :question, 2, user: user
     visit questions_path
-    expect(page).to have_link @questions[0].title, href: question_path(@questions[0])
-    expect(page).to have_link @questions[1].title, href: question_path(@questions[1])
+    expect(page).to have_link questions[0].title, href: question_path(questions[0])
+    expect(page).to have_link questions[1].title, href: question_path(questions[1])
   end
 end

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create :question }
-  let(:answer)  { create :answer, question: question }
+  let(:user)     { create :user }
+  let(:question) { create :question, user: user }
+  let(:answer)   { create :answer, question: question, user: user }
 
   describe 'GET #new' do
     sign_in_user
@@ -26,7 +27,7 @@ RSpec.describe AnswersController, type: :controller do
         expect {
           post :create, question_id: question, answer: attributes_for(:answer)
         }.to change(question.answers, :count).by(1)
-        expect(Answer.last.user).to eq @user
+        expect(assigns(:answer).user).to eq @user
       end
 
       it 'redirects to question show view' do
@@ -45,6 +46,38 @@ RSpec.describe AnswersController, type: :controller do
       it 're-render new view' do
         post :create, question_id: question.id, answer: attributes_for(:invalid_answer)
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+
+    let(:user_answer) { create :answer, question: question, user: @user }
+
+    before { user_answer }
+
+    context 'author of answer' do
+      it 'deletes answer' do
+        expect { delete :destroy, id: user_answer }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to the question view' do
+        delete :destroy, id: user_answer
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    context 'non-author of answer' do
+      sign_in_user
+
+      it 'tries to delete answer' do
+        expect { delete :destroy, id: user_answer }.to_not change(Question, :count)
+      end
+
+      it 'redirects to the question view' do
+        delete :destroy, id: user_answer
+        expect(response).to redirect_to question_path(question)
       end
     end
   end

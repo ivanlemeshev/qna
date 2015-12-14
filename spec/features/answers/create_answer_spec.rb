@@ -5,8 +5,8 @@ feature 'Create answer', %q(
   As an authenticated user
   I want to have ability to answer questions
 ) do
-  given(:user)     { create(:user) }
-  given(:question) { create(:question) }
+  given(:user)     { create :user }
+  given(:question) { create :question, user: user }
 
   scenario 'Authenticated user creates answer with valid data' do
     sign_in(user)
@@ -14,6 +14,7 @@ feature 'Create answer', %q(
     fill_in 'Body', with: 'Test answer'
     click_on 'Create Answer'
     expect(page).to have_content 'Your answer successfully created'
+    expect(page).to have_content 'Test answer'
   end
 
   scenario 'Authenticated user tries to create answer with invalid body' do

@@ -5,16 +5,18 @@ feature 'Create question', %q(
   As an authenticated user
   I want to have ability to ask questions
 ) do
-  given(:user) { create(:user) }
+  given(:user) { create :user }
 
   scenario 'Authenticated user creates question with valid data' do
     sign_in(user)
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'Test question'
+    fill_in 'Title', with: 'Test question title'
+    fill_in 'Body', with: 'Test question body'
     click_on 'Create'
     expect(page).to have_content 'Your question successfully created.'
+    expect(page).to have_content 'Test question title'
+    expect(page).to have_content 'Test question body'
   end
 
   scenario 'Authenticated user tries to create question with invalid title' do

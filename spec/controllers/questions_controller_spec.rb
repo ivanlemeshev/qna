@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:user) { create :user }
+
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
+    let(:questions) { create_list :question, 2, user: user }
 
     before { get :index }
 
@@ -16,7 +18,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:question) { create(:question) }
+    let(:question) { create :question, user: user }
 
     before { get :show, id: question }
 
@@ -33,7 +35,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'when user is an authenticated' do
       sign_in_user
 
-      let(:question) { create(:question) }
+      let(:question) { create :question, user: user }
 
       before { get :new }
 
@@ -62,7 +64,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     sign_in_user
 
-    let(:question) { create(:question, user: @user) }
+    let(:question) { create :question, user: @user }
 
     before { get :edit, id: question }
 
@@ -79,12 +81,12 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     sign_in_user
 
-    let(:question) { create(:question) }
+    let(:question) { create :question, user: @user }
 
     context 'with valid attributes' do
       it 'save the new question in the database' do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
-        expect(Question.last.user).to eq @user
+        expect(assigns(:question).user).to eq @user
       end
 
       it 'redirects to show view' do
@@ -108,7 +110,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     sign_in_user
 
-    let(:question) { create(:question, user: @user) }
+    let(:question) { create :question, user: @user }
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
@@ -134,8 +136,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change the question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq 'MyQuestion'
+        expect(question.body).to eq 'MyQuestionText'
       end
 
       it 're-render edit view' do
@@ -147,17 +149,32 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     sign_in_user
 
-    let(:question) { create(:question, user: @user) }
+    let(:user_question) { create :question, user: @user }
 
-    before { question }
+    before { user_question }
 
-    it 'deletes question' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+    context 'author of question' do
+      it 'deletes question' do
+        expect { delete :destroy, id: user_question }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to the index view' do
+        delete :destroy, id: user_question
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to the index view' do
-      delete :destroy, id: question
-      expect(response).to redirect_to questions_path
+    context 'non-author of question' do
+      sign_in_user
+
+      it 'tries to delete question' do
+        expect { delete :destroy, id: user_question }.to_not change(Question, :count)
+      end
+
+      it 'redirects to the index view' do
+        delete :destroy, id: user_question
+        expect(response).to redirect_to question_path(user_question)
+      end
     end
   end
 end

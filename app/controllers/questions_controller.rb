@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :only_owner, only: [:edit, :destroy]
 
   def index
     @questions = Question.all
@@ -14,9 +15,6 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    if !current_user.owner_of?(@question)
-      redirect_to @question, alert: I18n.t('alerts.access_denied')
-    end
   end
 
   def create
@@ -38,12 +36,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.owner_of?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: I18n.t('notices.questions.removed')
-    else
-      redirect_to @question, alert: I18n.t('alerts.access_denied')
-    end
+    @question.destroy
+    redirect_to questions_path, notice: I18n.t('notices.questions.removed')
   end
 
   private
@@ -54,5 +48,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def only_owner
+    redirect_to @question, alert: I18n.t('alerts.access_denied') unless current_user.owner_of?(@question)
   end
 end
