@@ -72,7 +72,7 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       it 'tries to delete answer' do
-        expect { delete :destroy, id: user_answer }.to_not change(Question, :count)
+        expect { delete :destroy, id: user_answer }.to_not change(Answer, :count)
       end
 
       it 'redirects to the question view' do
