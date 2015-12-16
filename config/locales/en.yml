@@ -21,6 +21,6 @@ en:
       removed: 'Your question successfully removed.'
   questions:
     show:
-      write_answer: 'Write answer'
+      need_sign_in: 'You need to sign in to answer the question.'
       remove_answer: 'Remove answer'
       remove_question: 'Remove question'

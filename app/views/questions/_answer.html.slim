@@ -1,0 +1,4 @@
+li
+  p= answer.body
+  - if user_signed_in? && current_user.owner_of?(answer)
+    = link_to t('questions.show.remove_answer'), answer, method: :delete, data: { confirm: t('common.sure') }

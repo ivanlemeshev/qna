@@ -1,21 +1,19 @@
-h1
-  = @question.title
+h1= @question.title
 
-p
-  = @question.body
+p= @question.body
 - if user_signed_in? && current_user.owner_of?(@question)
-  p
-    = link_to t('questions.show.remove_question'), @question, method: :delete, data: { confirm: t('common.sure') }
+  p= link_to t('questions.show.remove_question'), @question, method: :delete, data: { confirm: t('common.sure') }
 
-p
-  = link_to t('questions.show.write_answer'), new_question_answers_path(@question)
+p= link_to t('questions.show.write_answer'), new_question_answers_path(@question)
 
-- if @question.answers.size > 0
-    ul
-      - @question.answers.each do |answer|
-        li
-          p
-            = answer.body
-          - if user_signed_in? && current_user.owner_of?(answer)
-            p
-              = link_to t('questions.show.remove_answer'), answer, method: :delete, data: { confirm: t('common.sure') }
+ul.answers
+  - @question.answers.each do |answer|
+    = render 'answer', answer: answer
+
+- if user_signed_in?
+  = form_for [@question, @answer], remote: true do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.submit 'Create Answer'
+- else
+  p= t('questions.show.need_sign_in')

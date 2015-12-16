@@ -1,22 +1,13 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_question, only: [:new, :create]
+  before_action :load_question, only: [:create]
   before_action :load_answer, only: [:destroy]
   before_action :only_owner, only: [:destroy]
-
-  def new
-    @answer =  @question.answers.new
-  end
 
   def create
     @answer = current_user.answers.new(answer_params)
     @answer.question = @question
-
-    if @answer.save
-      redirect_to @question, notice: I18n.t('notices.answers.created')
-    else
-      render 'new'
-    end
+    @answer.save
   end
 
   def destroy

@@ -8,25 +8,26 @@ feature 'Create answer', %q(
   given(:user)     { create :user }
   given(:question) { create :question, user: user }
 
-  scenario 'Authenticated user creates answer with valid data' do
+  scenario 'Authenticated user creates answer with valid data', js: true do
     sign_in(user)
-    write_answer(question)
-    fill_in 'Body', with: 'Test answer'
+    visit question_path(question)
+    fill_in 'Your answer', with: 'Test answer'
     click_on 'Create Answer'
-    expect(page).to have_content 'Your answer successfully created'
-    expect(page).to have_content 'Test answer'
+    expect(current_path).to eq question_path(question)
+    within '.answers' do
+      expect(page).to have_content 'Test answer'
+    end
   end
 
   scenario 'Authenticated user tries to create answer with invalid body' do
     sign_in(user)
-    write_answer(question)
-    fill_in 'Body', with: nil
-    click_on 'Create Answer'
-    expect(page).to have_content "Body can't be blank"
+    visit question_path(question)
+    fill_in 'Your answer', with: nil
+    expect(current_path).to eq question_path(question)
   end
 
   scenario 'Unauthenticated user tries to create answer' do
-    write_answer(question)
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    visit question_path(question)
+    expect(page).to have_content 'You need to sign in to answer the question.'
   end
 end
