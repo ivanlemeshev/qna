@@ -7,8 +7,7 @@ p= @question.body
 p= link_to t('questions.show.write_answer'), new_question_answers_path(@question)
 
 ul.answers
-  - @question.answers.each do |answer|
-    = render 'answer', answer: answer
+  = render @question.answers
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
